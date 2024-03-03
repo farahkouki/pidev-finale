@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Sponsor{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered" style="background-color: white;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <a href="{{ path('app_sponsor_index') }}" class="btn btn-secondary">Back to List</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ include('sponsor/_delete_form.html.twig') }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

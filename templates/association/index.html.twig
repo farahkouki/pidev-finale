@@ -1,0 +1,74 @@
+{# templates/association/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des associations{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <br>
+    <br>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Inclure Font Awesome -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        {{ form_start(form, {'attr': {'class': 'form-search'}}) }}
+        <div class="input-group mb-3">
+            {{ form_row(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Recherche par nom'}}) }}
+            <!-- Retirer le bouton de recherche -->
+        </div>
+        {{ form_end(form) }}
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-4" style="border-width: 3px;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">Id</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">Nom</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">Description</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">Adresse</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">Email</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">NumeroTelephone</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">DateCreation</th>
+                        <th scope="col" class="text-white bg-dark font-weight-bold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for association in associations %}
+                        <tr>
+                            <td class="text-white bg-dark font-weight-bold">{{ association.id }}</td>
+                            <td class="text-white font-weight-bold">{{ association.nom }}</td>
+                            <td class="text-white font-weight-bold">{{ association.description }}</td>
+                            <td class="text-white font-weight-bold">{{ association.adresse }}</td>
+                            <td class="text-white font-weight-bold">{{ association.email }}</td>
+                            <td class="text-white font-weight-bold">{{ association.numeroTelephone }}</td>
+                            <td class="text-white font-weight-bold">{{ association.dateCreation ? association.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <a href="{{ path('app_association_show', {'id': association.id}) }}" class="btn btn-info btn-light text-dark">Voir</a>
+                                <a href="{{ path('app_association_edit', {'id': association.id}) }}" class="btn btn-warning btn-light text-dark">Éditer</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center text-white font-weight-bold"><strong>Aucun enregistrement trouvé</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{{ path('app_association_new') }}" class="btn btn-success btn-light text-dark font-weight-bold mt-3">Créer nouveau</a>
+    </div>
+
+    {% block table %}
+        <!-- Ici, vous pouvez insérer du contenu spécifique à la table -->
+        <!-- Par exemple, vous pouvez ajouter des filtres ou des boutons supplémentaires -->
+    {% endblock %}
+{% endblock %}

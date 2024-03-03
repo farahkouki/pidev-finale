@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réclamation{% endblock %}
+
+{% block body %}
+
+    <table class="table" style="border: 2px solid black; background-color: white;">
+        <tbody>
+            <tr>
+                <th style="color: black;"><strong>ID</strong></th>
+                <td style="color: black;"><strong>{{ reclamation.id }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>equipement</strong></th>
+                <td style="color: black;"><strong>{{ reclamation.equipement }}</strong></td>
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Message</strong></th>
+                <td style="color: black;"><strong>{{ reclamation.message }}</strong></td>
+            </tr>
+            <!-- Add additional rows for other reclamation details as needed -->
+        </tbody>
+    </table>
+
+    <div style="text-align: center;"> <!-- Centrer les liens -->
+        <a href="{{ path('app_reclamation') }}" style="color: green;">Retour à la liste</a>
+        
+        <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" style="color: green;">Modifier</a>
+    </div>
+
+    {{ include('reclamation/_delete_form.html.twig') }}
+{% endblock %}

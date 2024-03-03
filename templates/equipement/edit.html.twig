@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Equipement{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Modifier Equipement</h1>
+                <form method="post" action="{{ path('app_equipement_edit', {'id': equipement.id}) }}" enctype="multipart/form-data">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                    <a href="{{ path('app_equipement_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

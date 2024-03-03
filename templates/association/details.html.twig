@@ -1,0 +1,10 @@
+{# templates/association/list.html.twig #}
+
+{% for key, association in associations %}
+    <div>
+        <p>{{ association.nom }}</p>
+        <p>{{ association.description }}</p>
+        <img src="{{ qrCodes[key] }}" alt="Code QR">
+        {# ... autres détails de l'association #}
+    </div>
+{% endfor %}

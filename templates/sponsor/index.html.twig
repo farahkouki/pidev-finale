@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <div class="container mt-5">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark" style="background-color: black; color: white;">
+                <tr>
+                <br>
+                 <br>
+                  <br>
+                   <br>
+                    <br>
+                     <br>
+                      <br>
+                       <br>
+                        <br>
+                         <br>
+                         
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">DateCreation</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sponsor in sponsors %}
+                    <tr>
+                        <td>{{ sponsor.id }}</td>
+                        <td>{{ sponsor.nom }}</td>
+                        <td>{{ sponsor.adresse }}</td>
+                        <td>{{ sponsor.mail }}</td>
+                        <td>{{ sponsor.telephone }}</td>
+                        <td>{{ sponsor.dateCreation ? sponsor.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_sponsor_show', {'id': sponsor.id}) }}" class="btn btn-info btn-sm btn-light text-dark">Voir</a>
+                            <a href="{{ path('app_sponsor_edit', {'id': sponsor.id}) }}" class="btn btn-warning btn-sm btn-light text-dark">Éditer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center"><strong>No records found</strong></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <a href="{{ path('app_sponsor_new') }}" class="btn btn-success btn-sm btn-light text-dark">Créer nouveau</a>
+    </div>
+{% endblock %}
+
+{% block table %}
+{% endblock %}

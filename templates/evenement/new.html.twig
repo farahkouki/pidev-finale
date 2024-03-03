@@ -1,0 +1,22 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Nouvel Événement{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Nouvel Événement</h1>
+                <form method="post" action="{{ path('app_evenement_new') }}" enctype="multipart/form-data">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                    <a href="{{ path('app_evenement') }}" class="btn btn-secondary">Retour à la liste</a>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

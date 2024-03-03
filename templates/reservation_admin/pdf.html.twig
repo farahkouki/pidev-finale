@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des réservations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff0000; /* Rouge */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff; /* Bleu */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des réservations</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="color: #007bff;">Id</th>
+                <th style="color: #007bff;">Nom</th>
+                <th style="color: #007bff;">Prénom</th>
+                <th style="color: #007bff;">Email</th>
+                <th style="color: #007bff;">Numéro de téléphone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.nom }}</td>
+                    <td>{{ reservation.prenom }}</td>
+                    <td>{{ reservation.email }}</td>
+                    <td>{{ reservation.numeroTelephone }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

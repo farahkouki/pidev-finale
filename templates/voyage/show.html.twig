@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voyage{% endblock %}
+
+{% block body %}
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <style>
+        #map { 
+            height: 200px; 
+            margin-top: 10px; /* Ajout d'une marge en haut */
+            width: 30%; /* Définir la largeur de la carte */
+            position: absolute; /* Position absolue pour pouvoir utiliser left et top */
+            left: 50%; /* Placer le coin supérieur gauche de la carte à 50% de la largeur de la fenêtre */
+            transform: translateX(-50%); /* Déplacer la carte de moitié de sa propre largeur vers la gauche */
+        }
+        .map-container { 
+            margin-top: 80px; /* Marge en haut du conteneur de la carte */
+            position: relative; /* Assurez-vous que la carte reste dans le flux du document */
+        }
+        /* Ajoutez vos styles CSS supplémentaires ici */
+    </style>
+
+    <table class="table" style="border: 4px solid white; background-color: bold ;">
+        <tbody>
+            <tr>
+                <th style="color: black;"><strong>Réference du voyage</strong></th>
+                <td style="color: white;"><strong>{{ voyage.id }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>VilleDepart</strong></th>
+                <td style="color: white;"><strong>{{ voyage.villeDepart }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Destination</strong></th>
+                <td style="color: white;"><strong>{{ voyage.destination }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>HeureDepart</strong></th>
+                <td style="color: white;"><strong>{{ voyage.heureDepart ? voyage.heureDepart|date('H:i:s') : '' }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>HeureArrivee</strong></th>
+                <td style="color: white;"><strong>{{ voyage.heureArrivee ? voyage.heureArrivee|date('H:i:s') : '' }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>TypeVoyage</strong></th>
+                <td style="color: white;"><strong>{{ voyage.typeVoyage }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Type</strong></th>
+                <td style="color: white;"><strong>{{ voyage.type }}</strong></td>
+            </tr>
+ <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Activité</strong></th>
+                <td style="color: white;"><strong>{{ voyage.activites|join(', ') }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align: center;"> <!-- Centrer les liens -->
+        <a href="{{ path('app_voyage_index') }}" style="color: white;">back to list</a>
+        
+        <a href="{{ path('app_voyage_edit', {'id': voyage.id}) }}" style="color: white;">Editer</a>
+    </div>
+
+    {{ include('voyage/_delete_form.html.twig') }}
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Ajouter un marqueur
+    var marker = L.marker([51.5, -0.09]).addTo(map);
+    marker.bindPopup("<b>Hello world!</b><br>I am a marker popup.").openPopup();
+    var geocoder = L.Control.geocoder({
+      defaultMarkGeocode: false
+    })
+    .on('markgeocode', function(e) {
+      var bbox = e.geocode.bbox;
+      var poly = L.polygon([
+        bbox.getSouthEast(),
+        bbox.getNorthEast(),
+        bbox.getNorthWest(),
+        bbox.getSouthWest()
+      ]).addTo(map);
+      map.fitBounds(poly.getBounds());
+    })
+    .addTo(map);
+
+    // Ajout du contrôle de géolocalisation
+    map.locate({setView: true, maxZoom: 16});
+
+    function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+
+        L.marker(e.latlng).addTo(map)
+            .bindPopup("Vous êtes ici, avec une précision de " + radius + " mètres").openPopup();
+
+        L.circle(e.latlng, radius).addTo(map);
+    }
+
+   map.on('locationfound', onLocationFound);
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationerror', onLocationError);
+</script>
+
+{% endblock %}

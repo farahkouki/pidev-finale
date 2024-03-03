@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Réservation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #91D4DD; /* Rose */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            margin: 0 auto; /* Centre le tableau horizontalement */
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 3px  #000; /* Bordure large noire */
+            border-collapse: collapse;
+        }
+
+       
+
+        .green-text {
+            color: #342aff; /*  */
+        }
+
+        /* Style pour le logo */
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Style pour le nom ImpactfulJournyes */
+        .company-name {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Association</h1>
+        <table class="table">
+            <tr>
+                <td class="green-text"><strong>Nom:</strong></td>
+                <td>{{ association.nom }}</td>
+            </tr>
+            <tr>
+                <td class="green-text"><strong>Description:</strong></td>
+                <td>{{ association.Description }}</td>
+            </tr>
+            <tr>
+                <td class="green-text"><strong>Email:</strong></td>
+                <td>{{ association.email }}</td>
+            </tr>
+            <tr>
+                <td class="green-text"><strong>Adresse:</strong></td>
+                <td>{{ association.Adresse }}</td>
+            </tr>
+            <tr>
+                <td class="green-text"><strong>NumeroTelephone:</strong></td>
+                <td>{{ association.NumeroTelephone }}</td>
+            </tr>
+             
+        </table>
+        <!-- Logo et nom de l'entreprise -->
+        <div class="logo">
+            
+        </div>
+        
+    </div>
+</body>
+</html>

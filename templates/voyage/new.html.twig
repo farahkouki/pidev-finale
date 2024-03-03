@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Voyage{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: transparent !important;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .table {
+            background-color: transparent;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-md-5">
+                <table class="table table-bordered" style="background-color: white;">
+                <tbody>
+                    <tr>
+                        <td>
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button class="btn btn-primary">Enregistrer</button>
+                            {{ form_end(form) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <a href="{{ path('app_voyage_index') }}" class="btn btn-secondary">retour à la liste</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

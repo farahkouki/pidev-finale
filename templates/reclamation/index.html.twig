@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des réclamations{% endblock %}
+
+{% block body %}
+    <table class="table" style="border: 1px solid black; border-collapse: collapse; background-color: white; width: 100%; margin-bottom: 1rem;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Message</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <td>{{ reclamation.id }}</td>
+                    <td>{{ reclamation.message }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_reclamation_new') }}" style="background-color: green; color: white;" class="btn">Ajouter reclamation </a>
+{% endblock %}

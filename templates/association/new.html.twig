@@ -1,0 +1,27 @@
+{# templates/association/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}New Association{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered" style="background-color: white;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ include('association/_form.html.twig', {'form': form}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <a href="{{ path('app_association_index') }}" class="btn btn-secondary">Retour a la liste </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

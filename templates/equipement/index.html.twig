@@ -1,0 +1,126 @@
+{# templates/equipement/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Equipements{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Liste des Equipements</h1>
+    <style>
+        #myInput::placeholder {
+            color: black;
+        }
+    </style>
+
+    <div id="table-actions"  style="margin-bottom: 5px" class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex">
+            <button id="btPrint" onclick="createPDF()" class="export-pdf-btn">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search By ID ..." class="search-control"
+                id="search-input" style="color: black; border: 1px solid white;">
+        </div>
+        
+    </div>
+
+    <table class="table" id="equipement-table" style="border: 1px solid black; border-collapse: collapse; background-color: white;">
+        <thead>
+            <tr>
+                <th style="color: blue;">ID</th>
+                <th style="color: blue;">Nom d'équipe</th>
+                <th style="color: blue;">Nombre</th>
+                <th style="color: blue;">type</th>
+                <th style="color: blue;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in equipements %}
+                <tr>
+                    <td>{{ equipement.id }}</td>
+                    <td>{{ equipement.nomEquipe }}</td>
+                    <td>{{ equipement.Nbr }}</td>
+                    <td>{{ equipement.type }}</td>
+                    <td>
+                        <a href="{{ path('app_equipement_show', {'id': equipement.id}) }}" style="background-color: green; color: white;" class="btn">Voir</a>
+                       <!-- <a href="{{ path('app_equipement_edit', {'id': equipement.id}) }}" style="background-color: orange; color: white;" class="btn">Modifier</a>-->
+                       <!-- {{ include('equipement/_delete_form.html.twig', {'equipement': equipement}) }}-->
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+   <a href="{{ path('app_reclamation_new') }}" style="background-color: green; color: white;" class="btn">Ajouter reclamation </a>
+    
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function createPDF() {
+        var htmlContent = document.getElementById("equipement-table").outerHTML;
+        var win = window.open('', '', 'height=700,width=700');
+        win.document.write(htmlContent);
+        win.document.close();
+        win.print();
+    }
+
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("equipement-table");
+            tr = table.getElementsByTagName("tr");
+            
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Colonne de l'état (index 5)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("equipement-table");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}

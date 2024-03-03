@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Equipement{% endblock %}
+
+{% block body %}
+
+    <table class="table" style="border: 2px solid black; background-color: white;">
+        <tbody>
+            <tr>
+                <th style="color: black;"><strong>ID</strong></th>
+                <td style="color: black;"><strong>{{ equipement.id }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Nom d'équipe</strong></th>
+               <td style="color: black;"><strong>{{ equipement.nomEquipe }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Nombre</strong></th>
+                <td style="color: black;"><strong>{{ equipement.Nbr }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom: 2px solid black;"></td> <!-- Ligne de séparation -->
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Type</strong></th>
+                <td style="color: black;"><strong>{{ equipement.type }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align: center;"> <!-- Centrer les liens -->
+        <a href="{{ path('app_equipement_index') }}" style="color: white;">Retour à la liste</a>
+        
+        <a href="{{ path('app_equipement_edit', {'id': equipement.id}) }}" style="color: white;">Modifier</a>
+    </div>
+
+    {{ include('equipement/_delete_form.html.twig') }}
+{% endblock %}

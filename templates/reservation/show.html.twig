@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <style>
+        #map { 
+            height: 300px; 
+            margin-top: 10px; /* Ajout d'une marge en haut */
+            width: 30%; /* Définir la largeur de la carte */
+            position: absolute; /* Position absolue pour pouvoir utiliser left et top */
+            left: 50%; /* Placer le coin supérieur gauche de la carte à 50% de la largeur de la fenêtre */
+            transform: translateX(-50%); /* Déplacer la carte de moitié de sa propre largeur vers la gauche */
+        }
+        .map-container { 
+            margin-top: 80px; /* Marge en haut du conteneur de la carte */
+            position: relative; /* Assurez-vous que la carte reste dans le flux du document */
+        }
+        /* Ajoutez vos styles CSS supplémentaires ici */
+    </style>
+<br>
+<br>
+
+    <table class="table" style="border: 6px solid black; background-color: transparent;">
+        <tbody>
+            
+            
+            <tr>
+                <th style="color: black;"><strong>Nom</strong></th>
+                <td style="color: white;"><strong>{{ reservation.nom }}</strong></td>
+            
+            
+                <td colspan="3" style="border-bottom: 3px  white;"></td> 
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Prenom</strong></th>
+                <td style="color: white;"><strong>{{ reservation.prenom }}</strong></td>
+           
+                <td colspan="3" style="border-bottom: 3px  white;"></td> 
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Email</strong></th>
+                <td style="color: white;"><strong>{{ reservation.email }}</strong></td>
+            
+                <td colspan="3" style="border-bottom: 3px white;"></td> 
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>NumeroTelephone</strong></th>
+                <td style="color: white;"><strong>{{ reservation.numeroTelephone }}</strong></td>
+            
+                <td colspan="3" style="border-bottom: 3px white;"></td>
+            </tr>
+            <tr>
+                <th style="color: black;"><strong>Réference Voyage</strong></th>
+                <td style="color: white;"><strong>{{ reservation.voyage.id }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align: center;"> <!-- Centrer les liens -->
+        <a href="{{ path('app_reservation_index') }}" style="color: white;">Retour a la liste</a>
+        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" style="color: white;">Editer</a>
+
+
+
+         
+    </div>
+{# Ajouter le lien de téléchargement PDF #}
+<div style="border: 1px solid black; padding: 5px; margin-bottom: 10px; background-color: bold; display: inline-block;">
+    <a href="{{ path('app_reservation_pdf', {'id': reservation.id}) }}" style="color: white; text-decoration: none; display: inline;">Télécharger PDF</a>
+</div>
+
+
+
+    {{ include('reservation/_delete_form.html.twig') }}
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Ajouter un marqueur
+    var marker = L.marker([51.5, -0.09]).addTo(map);
+    marker.bindPopup("<b>Hello world!</b><br>I am a marker popup.").openPopup();
+    var geocoder = L.Control.geocoder({
+      defaultMarkGeocode: false
+    })
+    .on('markgeocode', function(e) {
+      var bbox = e.geocode.bbox;
+      var poly = L.polygon([
+        bbox.getSouthEast(),
+        bbox.getNorthEast(),
+        bbox.getNorthWest(),
+        bbox.getSouthWest()
+      ]).addTo(map);
+      map.fitBounds(poly.getBounds());
+    })
+    .addTo(map);
+
+    // Ajout du contrôle de géolocalisation
+    map.locate({setView: true, maxZoom: 16});
+
+    function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+
+        L.marker(e.latlng).addTo(map)
+            .bindPopup("Vous êtes ici, avec une précision de " + radius + " mètres").openPopup();
+
+        L.circle(e.latlng, radius).addTo(map);
+    }
+
+   map.on('locationfound', onLocationFound);
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationerror', onLocationError);
+</script>
+
+
+
+{% endblock %}

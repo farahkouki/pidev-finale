@@ -1,0 +1,77 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Liste des réservations{% endblock %}
+
+{% block body %}
+    <div style="text-align: center; margin-top: 10px;">
+        <h1>Liste des réservations</h1>
+        <br>
+        <br>
+
+        <!-- Ajouter le champ de recherche avec design Bootstrap -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Recherche..." aria-label="Recherche" aria-describedby="searchButton">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" id="searchButton">
+                    <i class="fas fa-search"></i> Rechercher
+                </button>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <table class="table" id="reservationTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>NumeroTelephone</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                    <tr class="reservation-row"
+                        data-id="{{ reservation.id }}"
+                        data-nom="{{ reservation.nom }}"
+                        data-prenom="{{ reservation.prenom }}"
+                        data-email="{{ reservation.email }}"
+                        data-numero-telephone="{{ reservation.numeroTelephone }}">
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.nom }}</td>
+                        <td>{{ reservation.prenom }}</td>
+                        <td>{{ reservation.email }}</td>
+                        <td>{{ reservation.numeroTelephone }}</td>
+                        <td>
+                            <a href="{{ path('app_reservation_admin_show', {'id': reservation.id}) }}">show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                performSearch();
+            });
+
+            function performSearch() {
+                var searchTerm = $('#searchInput').val().toLowerCase();
+
+                $('.reservation-row').each(function () {
+                    var rowData = $(this).text().toLowerCase();
+                    $(this).toggle(rowData.includes(searchTerm));
+                });
+            }
+        });
+    </script>
+{% endblock %}

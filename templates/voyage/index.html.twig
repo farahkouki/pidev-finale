@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voyage index{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Inclure le CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(form, {'attr': {'class': 'form-search'}}) }}
+        <div class="input-group mb-3">
+            {{ form_row(form.villeDepart, {'attr': {'class': 'form-control', 'placeholder': 'Recherche par Ville de départ'}}) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="container">
+        <br>
+        <br>
+        <!-- Ajouter la classe "table" pour utiliser les styles de Bootstrap pour les tableaux -->
+        <table class="table table-white">
+            <thead>
+                <tr>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">VilleDepart</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">Destination</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">HeureDepart</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">HeureArrivee</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">TypeVoyage</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">Type</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">Activité(s)</th>
+                    <th style="border: 4px solid white; padding: 8px; font-weight: bold; color: white;">actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for voyage in voyages %}
+                    <tr>
+                       <td style="border: 3px solid black; padding: 8px; color: white;">{{ voyage.villeDepart }}</td>
+                        <td style="border: 3px solid black; padding: 8px; color: white;">{{ voyage.destination }}</td>
+                        <td style="border: 3px solid black; padding: 8px; color: white;">{{ voyage.heureDepart ? voyage.heureDepart|date('H:i:s') : '' }}</td>
+                        <td style="border: 3px solid black; padding: 8px; color: white;">{{ voyage.heureArrivee ? voyage.heureArrivee|date('H:i:s') : '' }}</td>
+                        <td style="border: 3px solid black; padding: 8px; color: white;">{{ voyage.typeVoyage }}</td>
+                        <td style="border: 3px solid black; padding: 8px; color: white;">{{ voyage.type }}</td>
+                        <td style="border: 3px solid black; padding: 8px; color: white;">  
+                            {% if voyage.activites is iterable %}
+                                {{ voyage.activites|join(', ') }}
+                            {% else %}
+                                {{ voyage.activites }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_voyage_show', {'id': voyage.id}) }}">Consulter</a> |
+                            <a href="{{ path('app_voyage_edit', {'id': voyage.id}) }}">Editer</a> |
+                            <a href="{{ path('app_reservation_new', {'id': voyage.id}) }}">Réserver</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ path('app_voyage_new') }}">Crée Nouveau</a>
+{% endblock %}

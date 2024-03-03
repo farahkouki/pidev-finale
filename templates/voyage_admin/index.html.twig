@@ -1,0 +1,87 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Voyage index{% endblock %}
+
+{% block body %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h1>Liste des voyages</h1>
+        <br>
+        <br>
+
+        <!-- Ajouter le champ de recherche avec design Bootstrap -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Recherche..." aria-label="Recherche" aria-describedby="searchButton">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" id="searchButton">
+                    <i class="fas fa-search"></i> Rechercher
+                </button>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <table class="table" id="voyageTable">
+            <thead>
+                <tr>
+                    <th>Référence du voyage</th>
+                    <th>VilleDepart</th>
+                    <th>Destination</th>
+                    <th>HeureDepart</th>
+                    <th>HeureArrivee</th>
+                    <th>TypeVoyage</th>
+                    <th>Type</th>
+                    <th>Activites</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for voyage in voyages %}
+                <tr class="voyage-row"
+                    data-id="{{ voyage.id }}"
+                    data-ville-depart="{{ voyage.villeDepart }}"
+                    data-destination="{{ voyage.destination }}"
+                    data-heure-depart="{{ voyage.heureDepart ? voyage.heureDepart|date('H:i:s') : '' }}"
+                    data-heure-arrivee="{{ voyage.heureArrivee ? voyage.heureArrivee|date('H:i:s') : '' }}"
+                    data-type-voyage="{{ voyage.typeVoyage }}"
+                    data-type="{{ voyage.type }}"
+                    data-activites="{{ voyage.activites ? voyage.activites|join(', ') : '' }}">
+                    <td>{{ voyage.id }}</td>
+                    <td>{{ voyage.villeDepart }}</td>
+                    <td>{{ voyage.destination }}</td>
+                    <td>{{ voyage.heureDepart ? voyage.heureDepart|date('H:i:s') : '' }}</td>
+                    <td>{{ voyage.heureArrivee ? voyage.heureArrivee|date('H:i:s') : '' }}</td>
+                    <td>{{ voyage.typeVoyage }}</td>
+                    <td>{{ voyage.type }}</td>
+                    <td>{{ voyage.activites ? voyage.activites|join(', ') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_voyage_admin_show', {'id': voyage.id}) }}">show</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                performSearch();
+            });
+
+            function performSearch() {
+                var searchTerm = $('#searchInput').val().toLowerCase();
+
+                $('.voyage-row').each(function () {
+                    var rowData = $(this).find('td').text().toLowerCase(); // Recherche dans les données spécifiques de chaque colonne
+                    $(this).toggle(rowData.includes(searchTerm));
+                });
+            }
+        });
+    </script>
+
+{% endblock %}

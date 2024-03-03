@@ -1,0 +1,37 @@
+{# templates/evenement/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Événements{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Liste des Événements</h1>
+
+    <table class="table" style="border: 1px solid black; border-collapse: collapse; background-color: white;">
+        <thead>
+            <tr>
+                <th style="color: blue;">ID</th>
+                <th style="color: blue;">Nom d'événement</th>
+                <!-- Add additional table headers for other event details as needed -->
+                <th style="color: blue;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evenement in evenements %}
+                <tr>
+                    <td>{{ evenement.id }}</td>
+                    <td>{{ evenement.nom }}</td>
+                    <!-- Add additional table cells for other event details as needed -->
+                    <td>
+                        <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}" style="background-color: green; color: white;" class="btn">Voir</a>
+                        <!--<a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}" style="background-color: orange; color: white;" class="btn">Modifier</a>-->
+                        {{ include('evenement/_delete_form.html.twig', {'evenement': evenement}) }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!--<a href="{{ path('app_evenement_new') }}" style="background-color: green; color: white;" class="btn">Ajouter un événement</a>-->
+    
+{% endblock %}

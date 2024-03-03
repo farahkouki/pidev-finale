@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer Reservation{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered" style="background-color: white;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ include('reservation/_form.html.twig', {'button_label': 'Modifier'}) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">Retour a la liste</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ include('reservation/_delete_form.html.twig') }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

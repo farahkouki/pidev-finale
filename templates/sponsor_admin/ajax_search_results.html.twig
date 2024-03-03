@@ -1,0 +1,11 @@
+{# templates/sponsor/ajax_search_results.html.twig #}
+{% for sponsor in sponsors %}
+    <div class="search-result">
+        <p>{{ sponsor.nom }}</p>
+        <!-- Add more details or customize as needed -->
+    </div>
+{% else %}
+    <div class="no-results">
+        <p>No results found</p>
+    </div>
+{% endfor %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+
+    <table class="table" style="border: 1px solid black; border-collapse: collapse; background-color: transparent;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+   
+        <thead>
+            <tr>
+                <th style="border: 3px solid black; padding: 8px; font-weight: bold; color: black;">Réference du Voyage</th>
+                <th style="border: 3px solid black; padding: 8px; font-weight: bold; color: black;">Nom</th>
+                <th style="border: 3px solid black; padding: 8px; font-weight: bold; color: black;">Prenom</th>
+                <th style="border: 3px solid black; padding: 8px; font-weight: bold; color: black;">Email</th>
+                <th style="border: 3px solid black; padding: 8px; font-weight: bold; color: black;">NumeroTelephone</th>
+                <th style="border: 3px solid black; padding: 8px; font-weight: bold; color: black;">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td style="border: 2px solid black; padding: 8px; color: white;">{{ reservation.voyage.id }}</td>
+                <td style="border: 2px solid black; padding: 8px; color:white;">{{ reservation.nom }}</td>
+                <td style="border: 2px solid black; padding: 8px; color: white;">{{ reservation.prenom }}</td>
+                <td style="border: 2px solid black; padding: 8px; color:white;">{{ reservation.email }}</td>
+                <td style="border: 2px solid black; padding: 8px; color: white;">{{ reservation.numeroTelephone }}</td>
+                <td style="border: 2px solid black; padding: 8px; color: white;">
+                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" style="font-weight: bold; font-weight: bold;">Consulter</a>
+                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" font-weight: bold; font-weight: bold;">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" style="border: 1px solid black; padding: 8px; color: black;">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_new') }}" style="font-weight: bold;">Crée Nouveau</a>
+{% endblock %}

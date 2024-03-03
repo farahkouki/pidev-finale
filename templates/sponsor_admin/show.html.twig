@@ -1,0 +1,44 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Sponsor{% endblock %}
+
+{% block body %}
+   <div style="text-align: center; margin-top: 50px;"> <!-- Centre le contenu et ajoute un espacement au-dessus -->
+
+    <h1>Liste des sponsors</h1>
+<br>
+<br>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sponsor.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sponsor.nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ sponsor.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ sponsor.mail }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ sponsor.telephone }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ sponsor.dateCreation ? sponsor.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sponsor_admin_index') }}">back to list</a>
+
+
+    {{ include('sponsor_admin/_delete_form.html.twig') }}
+{% endblock %}

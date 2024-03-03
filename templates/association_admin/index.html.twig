@@ -1,0 +1,80 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Association index{% endblock %}
+
+{% block body %}
+    <div style="text-align: center; margin-top: 0px;">
+        <h1>Liste des associations</h1>
+        <br>
+        <br>
+
+        <!-- Ajouter le champ de recherche avec design Bootstrap -->
+<div class="input-group mb-3">
+    <input type="text" class="form-control" id="searchInput" placeholder="Recherche..." aria-label="Recherche" aria-describedby="searchButton">
+    <div class="input-group-append">
+        <button class="btn btn-primary" type="button" id="searchButton">
+            <i class="fas fa-search"></i> Rechercher
+        </button>
+    </div>
+</div>
+<br>
+<br>
+
+
+        <table class="table" id="associationTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Adresse</th>
+                    <th>Email</th>
+                    <th>NumeroTelephone</th>
+                    <th>DateCreation</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for association in associations %}
+                    <tr class="association-row"
+                        data-id="{{ association.id }}"
+                        data-nom="{{ association.nom }}"
+                        data-description="{{ association.description }}"
+                        data-adresse="{{ association.adresse }}"
+                        data-email="{{ association.email }}"
+                        data-numero-telephone="{{ association.numeroTelephone }}"
+                        data-date-creation="{{ association.dateCreation ? association.dateCreation|date('Y-m-d H:i:s') : '' }}">
+                        <td>{{ association.id }}</td>
+                        <td>{{ association.nom }}</td>
+                        <td>{{ association.description }}</td>
+                        <td>{{ association.adresse }}</td>
+                        <td>{{ association.email }}</td>
+                        <td>{{ association.numeroTelephone }}</td>
+                        <td>{{ association.dateCreation ? association.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_association_admin_show', {'id': association.id}) }}">show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('input', function () {
+                var searchTerm = $(this).val().toLowerCase();
+
+                $('.association-row').each(function () {
+                    var rowData = $(this).text().toLowerCase();
+                    $(this).toggle(rowData.includes(searchTerm));
+                });
+            });
+        });
+    </script>
+{% endblock %}

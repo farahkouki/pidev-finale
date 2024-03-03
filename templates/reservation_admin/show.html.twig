@@ -1,0 +1,41 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+    <div style="text-align: center; margin-top: 50px;"> <!-- Centre le contenu et ajoute un espacement au-dessus -->
+
+    <h1>Liste des réservation</h1>
+<br>
+<br>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ reservation.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ reservation.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ reservation.email }}</td>
+            </tr>
+            <tr>
+                <th>NumeroTelephone</th>
+                <td>{{ reservation.numeroTelephone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_admin_index') }}">back to list</a>
+
+
+    {{ include('reservation_admin/_delete_form.html.twig') }}
+{% endblock %}
